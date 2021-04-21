@@ -3,9 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script defer src="app/js/dist/app.js"></script>
     <title>iO Finance Calc</title>
 </head>
 <body>
-
+    <header>
+        <h1>Finance Calc</h1>
+    </header>
+    <main>
+        <section>
+            <form>
+                <input type="number" placeholder="Amount to borrow">
+                <input type="number" placeholder="Expected salary">
+                <input type="number" placeholder="Repayment %">
+            </form>
+        </section>
+        <section>
+            <p class="outputContainer">Your repayment amount is <span class="outputValue" id="repaymentAmt">10000</span></p>
+            <p class="outputContainer">You have an  admin fee of <span class="outputValue" id="adminFee">1000</span></p>
+            <p class="outputContainer">You will have paid full in <span class="outputValue" id="paymentPeriod">1 week</span></p>
+        </section>
+    </main>
 </body>
 </html>
