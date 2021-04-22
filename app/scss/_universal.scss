@@ -7,7 +7,7 @@
 }
 
 html {
-  //background-image: url("../images/pets_banner.jpg");
+  background-image: url("../images/pets_banner.jpg");
   background-repeat: no-repeat;
   background-color: $bg-color;
   background-size: 100%;
@@ -20,5 +20,4 @@ body {
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
-  border: 1px solid black;
 }

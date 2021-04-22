@@ -19,10 +19,9 @@ function calcTotalFee(totalBorrowAmount) {
 function calcPaymentPeriodMonths(totalBorrowAmount, expectedSalary, repaymentPc) {
     var monthlySalary = expectedSalary / 12;
     var monthlyPayment = monthlySalary * repaymentPc;
-    var remainingMonths = totalBorrowAmount / monthlyPayment;
-    return remainingMonths;
+    return totalBorrowAmount / monthlyPayment;
 }
-function calcPaymentPeriodYears(months) {
+function calcPaymentPeriodDisplayInfo(months) {
     var displayYears = Math.floor(months / 12);
     var displayMonths = months % 12;
     return {
@@ -30,5 +29,18 @@ function calcPaymentPeriodYears(months) {
         months: displayMonths
     };
 }
-var repaymentAmount = calcTotalBorrowAmount(borrowAmount);
-var adminFee = calcAdminFee(borrowAmount);
+function generatePaymentPeriodDisplayHTML(displayInfo) {
+    return displayInfo.years + " years, " + Math.round(displayInfo.months) + " months";
+}
+var paymentPeriodMonths = calcPaymentPeriodMonths(calcTotalBorrowAmount(borrowAmount), expectedSalary, repaymentPc);
+var paymentDisplayInfo = calcPaymentPeriodDisplayInfo(paymentPeriodMonths);
+document.querySelectorAll('form input').forEach(function (el) {
+    el.addEventListener('keypress', function () {
+        borrowAmount = document.querySelectorAll('.inputContainer')[0].value;
+        expectedSalary = document.querySelectorAll('.inputContainer')[1].value;
+        repaymentPc = (document.querySelectorAll('.inputContainer')[2].value) / 10;
+        document.querySelector('#repaymentAmt').textContent = String(calcTotalBorrowAmount(borrowAmount));
+        document.querySelector('#adminFee').textContent = String(calcAdminFee(borrowAmount));
+        document.querySelector('#paymentPeriod').textContent = generatePaymentPeriodDisplayHTML(paymentDisplayInfo);
+    });
+});

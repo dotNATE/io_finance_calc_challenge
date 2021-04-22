@@ -1,8 +1,4 @@
-let borrowAmount: number = 10000
-let expectedSalary: number = 25000
-let repaymentPc: number = 10 / 100
-
-interface displayObject {
+interface DisplayObject {
     years: number
     months: number
 }
@@ -21,18 +17,13 @@ function calcAdminFee(totalBorrowAmount: number): number {
     return totalBorrowAmount * 0.05
 }
 
-function calcTotalFee(totalBorrowAmount: number): number {
-    return totalBorrowAmount *= 0.05
-}
-
 function calcPaymentPeriodMonths(totalBorrowAmount: number, expectedSalary: number, repaymentPc: number): number {
     let monthlySalary: number = expectedSalary / 12
     let monthlyPayment: number = monthlySalary * repaymentPc
-    let remainingMonths = totalBorrowAmount / monthlyPayment
-    return remainingMonths
+    return totalBorrowAmount / monthlyPayment
 }
 
-function calcPaymentPeriodYears(months: number): displayObject {
+function calcPaymentPeriodDisplayInfo(months: number): DisplayObject {
     let displayYears = Math.floor(months / 12)
     let displayMonths = months % 12
     return {
@@ -41,5 +32,21 @@ function calcPaymentPeriodYears(months: number): displayObject {
     }
 }
 
-let repaymentAmount = calcTotalBorrowAmount(borrowAmount)
-let adminFee = calcAdminFee(borrowAmount)
+function generatePaymentPeriodDisplayHTML(displayInfo: DisplayObject): string {
+    return `${displayInfo.years} years, ${Math.round(displayInfo.months)} months`
+}
+
+document.querySelectorAll('form input').forEach((el) => {
+    el.addEventListener('keypress', () => {
+        let borrowAmount: number = document.querySelectorAll('.inputContainer')[0].value
+        let expectedSalary: number = document.querySelectorAll('.inputContainer')[1].value
+        let repaymentPc: number = (document.querySelectorAll('.inputContainer')[2].value) / 10
+
+        let paymentPeriodMonths = calcPaymentPeriodMonths(calcTotalBorrowAmount(borrowAmount), expectedSalary, repaymentPc)
+        let paymentDisplayInfo = calcPaymentPeriodDisplayInfo(paymentPeriodMonths)
+
+        document.querySelector('#repaymentAmt').textContent = String(calcTotalBorrowAmount(borrowAmount))
+        document.querySelector('#adminFee').textContent = String(calcAdminFee(borrowAmount))
+        document.querySelector('#paymentPeriod').textContent = generatePaymentPeriodDisplayHTML(paymentDisplayInfo)
+    })
+})

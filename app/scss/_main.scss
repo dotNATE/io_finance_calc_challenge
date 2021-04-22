@@ -15,7 +15,7 @@ form {
   display: flex;
   flex-direction: column;
   & input {
-    @include infoDisplay('.5rem');
+    @include infoDisplay('.5rem', $output-color);
     border:  none;
     &:focus {
       outline: none;
@@ -28,5 +28,8 @@ form {
 }
 
 .outputValue {
-  color: lightblue;
+  color: $output-color;
+  &.cash::before {
+    content: '£';
+  }
 }
