@@ -36,17 +36,18 @@ function generatePaymentPeriodDisplayHTML(displayInfo: DisplayObject): string {
     return `${displayInfo.years} years, ${Math.round(displayInfo.months)} months`
 }
 
-document.querySelectorAll('form input').forEach((el) => {
-    el.addEventListener('keypress', () => {
-        let borrowAmount: number = document.querySelectorAll('.inputContainer')[0].value
-        let expectedSalary: number = document.querySelectorAll('.inputContainer')[1].value
-        let repaymentPc: number = (document.querySelectorAll('.inputContainer')[2].value) / 10
+document.querySelector('form').addEventListener('submit', (e) => {
+    e.preventDefault()
 
-        let paymentPeriodMonths = calcPaymentPeriodMonths(calcTotalBorrowAmount(borrowAmount), expectedSalary, repaymentPc)
-        let paymentDisplayInfo = calcPaymentPeriodDisplayInfo(paymentPeriodMonths)
+    let borrowAmount: number = Number(e.target[0].value)
+    let expectedSalary: number = Number(e.target[1].value)
+    let repaymentPc: number = e.target[2].value / 100
 
-        document.querySelector('#repaymentAmt').textContent = String(calcTotalBorrowAmount(borrowAmount))
-        document.querySelector('#adminFee').textContent = String(calcAdminFee(borrowAmount))
-        document.querySelector('#paymentPeriod').textContent = generatePaymentPeriodDisplayHTML(paymentDisplayInfo)
-    })
+    let totalBorrowAmount: number = calcTotalBorrowAmount(borrowAmount)
+    let paymentPeriodMonths: number = calcPaymentPeriodMonths(totalBorrowAmount, expectedSalary, repaymentPc)
+    let paymentDisplayInfo: DisplayObject = calcPaymentPeriodDisplayInfo(paymentPeriodMonths)
+
+    document.querySelector('#repaymentAmt').textContent = String(totalBorrowAmount)
+    document.querySelector('#adminFee').textContent = String(calcAdminFee(borrowAmount))
+    document.querySelector('#paymentPeriod').textContent = generatePaymentPeriodDisplayHTML(paymentDisplayInfo)
 })

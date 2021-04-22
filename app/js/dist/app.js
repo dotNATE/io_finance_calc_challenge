@@ -1,6 +1,3 @@
-var borrowAmount = 10000;
-var expectedSalary = 25000;
-var repaymentPc = 10 / 100;
 function calcTotalBorrowAmount(borrowAmount) {
     if (borrowAmount > 9000) {
         return borrowAmount + 1000;
@@ -12,9 +9,6 @@ function calcTotalBorrowAmount(borrowAmount) {
 }
 function calcAdminFee(totalBorrowAmount) {
     return totalBorrowAmount * 0.05;
-}
-function calcTotalFee(totalBorrowAmount) {
-    return totalBorrowAmount *= 0.05;
 }
 function calcPaymentPeriodMonths(totalBorrowAmount, expectedSalary, repaymentPc) {
     var monthlySalary = expectedSalary / 12;
@@ -32,15 +26,15 @@ function calcPaymentPeriodDisplayInfo(months) {
 function generatePaymentPeriodDisplayHTML(displayInfo) {
     return displayInfo.years + " years, " + Math.round(displayInfo.months) + " months";
 }
-var paymentPeriodMonths = calcPaymentPeriodMonths(calcTotalBorrowAmount(borrowAmount), expectedSalary, repaymentPc);
-var paymentDisplayInfo = calcPaymentPeriodDisplayInfo(paymentPeriodMonths);
-document.querySelectorAll('form input').forEach(function (el) {
-    el.addEventListener('keypress', function () {
-        borrowAmount = document.querySelectorAll('.inputContainer')[0].value;
-        expectedSalary = document.querySelectorAll('.inputContainer')[1].value;
-        repaymentPc = (document.querySelectorAll('.inputContainer')[2].value) / 10;
-        document.querySelector('#repaymentAmt').textContent = String(calcTotalBorrowAmount(borrowAmount));
-        document.querySelector('#adminFee').textContent = String(calcAdminFee(borrowAmount));
-        document.querySelector('#paymentPeriod').textContent = generatePaymentPeriodDisplayHTML(paymentDisplayInfo);
-    });
+document.querySelector('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var borrowAmount = Number(e.target[0].value);
+    var expectedSalary = Number(e.target[1].value);
+    var repaymentPc = e.target[2].value / 100;
+    var totalBorrowAmount = calcTotalBorrowAmount(borrowAmount);
+    var paymentPeriodMonths = calcPaymentPeriodMonths(totalBorrowAmount, expectedSalary, repaymentPc);
+    var paymentDisplayInfo = calcPaymentPeriodDisplayInfo(paymentPeriodMonths);
+    document.querySelector('#repaymentAmt').textContent = String(totalBorrowAmount);
+    document.querySelector('#adminFee').textContent = String(calcAdminFee(borrowAmount));
+    document.querySelector('#paymentPeriod').textContent = generatePaymentPeriodDisplayHTML(paymentDisplayInfo);
 });

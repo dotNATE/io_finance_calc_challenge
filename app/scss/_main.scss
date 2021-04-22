@@ -1,6 +1,5 @@
 header {
   color: $text-color;
-  font-size: 2.7rem;
   letter-spacing: 10px;
   padding-top: 6rem;
   width: 100%;
@@ -15,16 +14,18 @@ form {
   display: flex;
   flex-direction: column;
   & input {
-    @include infoDisplay('.5rem', $output-color);
+    @include infoDisplay('.5rem', 2.5rem, $output-color);
     border:  none;
-    &:focus {
+    &:focus,
+    &:hover {
+      background-color: $highlight-color;
       outline: none;
     }
   }
 }
 
 .outputContainer {
-  @include infoDisplay('1rem');
+  @include infoDisplay('1rem', 3.5rem);
 }
 
 .outputValue {

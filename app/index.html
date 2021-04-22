@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="normalize.css">
     <link rel="stylesheet" href="css/style.css">
     <script defer src="js/dist/app.js"></script>
@@ -14,9 +15,10 @@
     <main>
         <section>
             <form>
-                <input type="number" class="inputContainer" placeholder="Amount to borrow">
+                <input type="number" class="inputContainer" name="borrowAmt" placeholder="Amount to borrow">
                 <input type="number" class="inputContainer" placeholder="Expected salary">
-                <input type="number" class="inputContainer" placeholder="Repayment %">
+                <input type="number" class="inputContainer" placeholder="Repayment %" min="10">
+                <input type="submit">
             </form>
         </section>
         <section>
